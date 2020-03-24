@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
+        
+        <title>test</title>
+    </head>
+    <body>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw;">
+            <canvas id="myChart"></canvas>
+        </div>
+        
+        <script>
+            var config = {
+                type: 'line',
+                plugins: [ChartDataSource],
+            
+                options: {
+                    scales: {
+                        yAxes: [{
+                            type: 'logarithmic'
+                        }],
+                    },
+                    plugins: {
+                        datasource:{
+                            type: 'csv',
+                            url:'total_cases.csv',
+                            rowMapping: 'index'
+                            
+                            // url:'https://covid.ourworldindata.org/data/who/total_cases.csv'
+
+                        }
+                    }
+                }
+            }
+
+            var config0 = {
+                type: 'bar',
+                plugins: [ChartDataSource],
+                options: {
+                    plugins: {
+                        datasource: {
+                            type: 'csv',
+                            url: 'total_cases.csv',
+                            delimiter: ',',
+                            rowMapping: 'dataset',
+                            datasetLabels: true,
+                            indexLabels: true
+                        }
+                    }
+                }
+            };
+
+            window.onload = function() {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                window.myChart = new Chart(ctx, config);
+            };
+        </script>
+    </body>
+</html>
