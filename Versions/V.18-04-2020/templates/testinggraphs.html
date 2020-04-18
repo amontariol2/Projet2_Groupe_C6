@@ -1,0 +1,261 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>A Chart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #f0f0f0;
+        }
+        #buttons {
+          position: absolute;
+          left: 10px;
+          top: 0px;
+        }
+        button {
+          margin-top: 10px;
+          display: block;
+        }
+        #footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 2.5rem;            /* Footer height */
+        }
+        @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+        body {
+            margin: 0;
+            background: #222;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 800;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        header {
+        background: #55d6aa;
+        }
+
+        header::after {
+        content: '';
+        display: table;
+        clear: both;
+        }
+
+        .logo {
+        float: left;
+        padding: 10px 0;
+        }
+
+        nav {
+        float: right;
+        }
+
+        nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        }
+
+        nav li {
+        display: inline-block;
+        margin-left: 70px;
+        padding-top: 23px;
+
+        position: relative;
+        }
+
+        nav a {
+        color: #444;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 14px;
+        }
+
+        nav a:hover {
+        color: #000;
+        }
+
+        nav a::before {
+        content: '';
+        display: block;
+        height: 5px;
+        background-color: #444;
+
+        position: absolute;
+        top: 0;
+        width: 0%;
+
+        transition: all ease-in-out 250ms;
+        }
+
+        nav a:hover::before {
+        width: 100%;
+        }
+      </style>
+</head>
+
+<body>
+    <div>
+        <select name=colours method="GET" action="/">
+            {% for colour in colours %}
+                <option value="{{colour}}" SELECTED>{{colour}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <header>
+        <div class="container">
+          <h1 class="logo"></h1>
+    
+          <nav>
+            <ul>
+                <li class="nav-item" id="1">Graphe 1</li>
+                <li class="nav-item" id="2">Graphe 2</li>
+                <li class="nav-item" id="3">Graphe 3</li>
+                <li class="nav-item" id="clear">Clear</li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    <div id="container"></div>
+    <br/><br/><br/><br/><br/>
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+
+    
+    <script>
+   
+        document.getElementById('1').addEventListener(
+            'click',
+            function() {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                ctx.clearRect(0, 0, 100000, 100000);
+                var getData = $.get('/sql');
+                
+                getData.done(function (results) {
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        title: 'Inginious',
+                        data: {
+                            labels: results.results.map(r => r.lbl),
+                            datasets: [{
+                                label: 'tries',
+                                data: results.results.map(r => r.val),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                ]
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    display: true,
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                })
+
+            },
+            false
+        );
+
+        document.getElementById('2').addEventListener(
+            'click',
+            function() {
+                var ctx2 = document.getElementById('myChart').getContext('2d');
+                ctx2.clearRect(0, 0, 100000, 100000);
+                var getData = $.get('/sql');
+
+                getData.done(function (results) {
+                    var myChart = new Chart(ctx2, {
+                        type: 'doughnut',
+                        title: 'Inginious',
+                        data: {
+                            labels: results.results.map(r => r.lbl),
+                            datasets: [{
+                                label: 'tries',
+                                data: results.results.map(r => r.val),
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                ]
+                            }]
+                        }
+
+                    });
+
+                })
+
+            },
+            false
+        );
+
+
+        document.getElementById('3').addEventListener(
+            'click',
+            function() {
+                var ctx3 = document.getElementById('myChart').getContext('2d');
+                
+                var getData1 = $.get('/try');
+                getData1.done(function (avgtries) {
+                    var myChart3 = new Chart(ctx3, {
+                        type: 'line',
+                        title: 'Inginious',
+                        data: {
+                            labels: avgtries.avgtries.map(r => r.lbl),
+                            datasets: [{
+                                label: 'tries',
+                                data: avgtries.avgtries.map(r => r.val),
+                                borderColor: "#bae755"
+
+                            }
+                            ]
+                        }
+
+                    });
+                })
+            },
+            false
+        );
+        document.getElementById('clear').addEventListener(
+            'click',
+            function() {
+                window.location.reload(true);
+            },
+            false
+        );
+
+
+    </script>
+</body>
+
+</html>
