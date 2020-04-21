@@ -1,0 +1,179 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>A Chart</title>
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #f0f0f0;
+        }
+        #buttons {
+          position: absolute;
+          left: 10px;
+          top: 0px;
+        }
+        button {
+          margin-top: 10px;
+          display: block;
+        }
+        #footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 2.5rem;            /* Footer height */
+        }
+        @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+        body {
+            margin: 0;
+            background: #FFFFFF;
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 800;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #50b1e4;
+        }
+
+        li {
+        float: left;
+        }
+
+        li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+        background-color: #FFFFFF;
+        }
+
+        .active {
+        background-color: #50b1e4;
+        }
+      </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+          <h1 class="logo"></h1>
+    
+          <nav>
+            <ul>
+                <li>LOGO</li>
+                <li style="float:right"><a  href="#home" id="1">Graphe 1</a></li>
+                <li style="float:right"><a  href="#home" id="2">Graphe 2</a></li>
+                <li style="float:right"><a  href="#home" id="3">Graphe 3</a></li>
+                <li style="float:right"><a  href="#home" id="clear">Clear</a></li>
+              </ul>
+          </nav>
+        </div>
+      </header>
+
+    <script>
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var ctx3 = document.getElementById('myChart3').getContext('2d');
+
+        var getData1 = $.get('/try');
+        getData1.done(function (avgtries) {
+            var myChart3 = new Chart(ctx3, {
+                type: 'line',
+                title: 'Inginious',
+                data: {
+                    labels: avgtries.avgtries.map(r => r.lbl),
+                    datasets: [{
+                        label: 'tries',
+                        data: avgtries.avgtries.map(r => r.val),
+                        borderColor: "#bae755"
+
+                    }
+                    ]
+                }
+
+            });
+        })
+
+        var getData = $.get('/sql');
+
+        getData.done(function (results) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                title: 'Inginious',
+                data: {
+                    labels: results.results.map(r => r.lbl),
+                    datasets: [{
+                        label: 'tries',
+                        data: results.results.map(r => r.val),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            var myChart2 = new Chart(ctx2, {
+                type: 'doughnut',
+                title: 'Inginious',
+                data: {
+                    labels: results.results.map(r => r.lbl),
+                    datasets: [{
+                        label: 'tries',
+                        data: results.results.map(r => r.val),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ]
+                    }]
+                }
+
+            });
+
+        })
+
+
+    </script>
+</body>
+
+</html>
