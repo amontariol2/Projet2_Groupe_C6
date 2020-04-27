@@ -42,6 +42,53 @@
         ul li { 
             padding: 10px 0px; 
         }
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu>.dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu>a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #ccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
+        .dropdown-submenu:hover>a:after {
+            border-left-color: #fff;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+        }
+
+        .dropdown-submenu.pull-left>.dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
     </style>
 </head>
 
@@ -51,24 +98,46 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Project 2</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu4">How to use!</a></li>
+                <li style="float: right;" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu">Other graphs <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                            <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle">LSINF1252</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
+                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
+                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
+                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown">LEPL1402</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
+                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
+                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
+                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown">LSINF1101-PYTHON</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
+                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
+                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
+                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>  
                 <li style="float: right;"><a data-toggle="tab" href="#menu3">Graph 3</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu2">Graph 2</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu1">Graph 1</a></li>
+                
             </ul>
         </div>
     </header>
-    <div id="H2Udiv" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content">
-        <span class="close">&times;</span>
-        <h1><u>How to Use?</u></h1>
-        <br/><br/>
-        <p>Start by selecting one of the graphs on the navbar.</p>
-        <br/>
-        <p>If you ever want to switch out the graph, be sure to click clear first.</p>
-    </div>
-    
     </div>
 
     <div class="tab-content">
@@ -113,8 +182,13 @@
                 <canvas id="myChart3"></canvas>
             </div>
         </div>
+        <div id="course1" class="tab-pane">
+            <div>
+                <canvas id="myChart4"></canvas>
+            </div>
+        </div>
         
-    </div>
+        </div>
    
     <div id="footer">
         <span>Adrien Montariol - Arthur Wery - Giannis Matrozos</span>
@@ -122,7 +196,17 @@
     </div>
 
     <script>
-           
+        $(document).ready(function(){
+            $('.dropdown-submenu a.test').on("hover", function(e){
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+
+    <script>
+        
         function chart1() {
             var ctx = document.getElementById('myChart1').getContext('2d');
             ctx.clearRect(0, 0, 100000, 100000);
@@ -258,9 +342,58 @@
             })
         }
           
+        // function chart4() {
+        //     var ctx = document.getElementById('myChart4').getContext('2d');
+        //     ctx.clearRect(0, 0, 100000, 100000);
+        //     var getData = $.get('/difftasks');
+            
+        //     getData.done(function (response) {
+
+        //         var tasks = response.difftasks.map(r => "'" + r.lbl + "'")
+        //         var getData1 = $.get("/percent?tasks=" + tasks.join(','));
+
+        //         getData1.done(function (response1) {
+        //             var myChart = new Chart(ctx, {
+        //             type: 'horizontalBar',
+        //             title: 'Inginious',
+        //             data: {
+        //                 labels: response.difftasks.map(r => r.lbl),
+        //                 datasets: [{
+        //                     label: 'Number of students that tried the exercise',
+        //                     data: response.difftasks.map(r => r.val),
+        //                     backgroundColor: '#50b1e4',
+        //                     borderColor: '#50b1e4'
+        //                 },
+        //                 {
+        //                     label: 'Number of students that succeeded the exercise',
+        //                     data: response1.percent.map(x => x.val),
+        //                     backgroundColor: '#A7E6F1',
+        //                     borderColor: '#A7E6F1',
+        //                     // Changes this dataset to become a line
+        //                     type: 'horizontalBar'
+        //                 }]
+        //             },
+        //             options: {
+        //                 scales: {
+        //                     yAxes: [{
+        //                         display: true,
+        //                         ticks: {
+        //                             beginAtZero: true,
+        //                         }
+        //                     }]
+        //                 }
+        //             }
+        //         });
+        //         })
+        //     })
+
+        // }
+
+        
         chart1();
         chart2();
         chart3();
+        //chart4();
 
     </script>
 </body>
