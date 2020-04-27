@@ -68,20 +68,20 @@ def avgtries():
 
 @app.route('/topten1')
 def top10_LSINF1101():
-    return jsonify({'topten': query_db(
-        'SELECT task as lbl, count(*) as val from user_tasks where course="LSINF1101-PYTHON" group by task order by count(*) desc limit 10'
+    return jsonify({'topten1': query_db(
+        'SELECT task as lbl from user_tasks where course="LSINF1101-PYTHON" group by task order by count(*) desc limit 10'
     )})
 
 @app.route('/topten2')
 def top10_LSINF1252():
-    return jsonify({'topten': query_db(
-        'SELECT task as lbl, count(*) as val from user_tasks where course="LSINF1252" group by task order by count(*) desc limit 10'
+    return jsonify({'topten2': query_db(
+        'SELECT task as lbl from user_tasks where course="LSINF1252" group by task order by count(*) desc limit 10'
     )})
 
 @app.route('/topten3')
 def top10_LEPL1402():
-    return jsonify({'topten': query_db(
-        'SELECT task as lbl, count(*) as val from user_tasks where course="LEPL1402" group by task order by count(*) desc limit 10'
+    return jsonify({'topten3': query_db(
+        'SELECT task as lbl from user_tasks where course="LEPL1402" group by task order by count(*) desc limit 10'
     )})
 
 

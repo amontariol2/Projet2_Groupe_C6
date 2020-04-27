@@ -84,11 +84,15 @@
 
         .dropdown-submenu.pull-left>.dropdown-menu {
             left: -100%;
-            margin-left: 10px;
+            margin-left: 15px;
             -webkit-border-radius: 6px 0 6px 6px;
             -moz-border-radius: 6px 0 6px 6px;
             border-radius: 6px 0 6px 6px;
         }
+        #dropdown-hint + ul{
+            padding-left: 15px;
+        }
+        
     </style>
 </head>
 
@@ -102,31 +106,16 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu">Other graphs <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-submenu">
-                            <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle">LSINF1252</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
-                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
-                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
-                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
-                            </ul>
+                            <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle" id="dropdown-hint">LSINF1252</a>
+                            <ul class="dropdown-menu selectpicker1"></ul>
                         </li>
                         <li class="dropdown-submenu">
-                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown">LEPL1402</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
-                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
-                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
-                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
-                            </ul>
+                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LEPL1402</a>
+                            <ul class="dropdown-menu selectpicker2"></ul>
                         </li>
                         <li class="dropdown-submenu">
-                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown">LSINF1101-PYTHON</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="exercice1" role="tab" data-toggle="tab" >hi1</a></li>
-                                <li><a href="exercice2" role="tab" data-toggle="tab">hi2</a></li>
-                                <li><a href="exercice3" role="tab" data-toggle="tab" >hi3</a></li>
-                                <li><a href="exercice4" role="tab" data-toggle="tab" >hi4</a></li>
-                            </ul>
+                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LSINF1101-PYTHON</a>
+                            <ul class="dropdown-menu selectpicker" ></ul>
                         </li>
                     </ul>
                 </li>  
@@ -196,11 +185,45 @@
     </div>
 
     <script>
-        $(document).ready(function(){
-            $('.dropdown-submenu a.test').on("hover", function(e){
-                $(this).next('ul').toggle();
-                e.stopPropagation();
-                e.preventDefault();
+        //LEPL1402
+        var getData2 = $.get('/topten3');
+        getData2.done(function(response2){
+            $(document).ready(function(){
+                var elms = [];
+                var src = response2.topten3
+                src.forEach(function(item){
+                    var elm = "<li>" + item.lbl + "</li>"
+                    elms.push(elm);
+                });
+                $('.selectpicker2').html(elms)
+            })
+        })
+        //LSINF1252
+        var getData1 =$.get('/topten2');
+        getData1.done(function(response1){
+            $(document).ready(function (){
+                var elms = [];
+                var src = response1.topten2
+                src.forEach(function(item){
+                    var elm = "<li>" + item.lbl + "</li>"
+                    elms.push(elm);
+                });
+                $('.selectpicker1').html(elms)
+            })
+        });
+        //LSINF1101-PYTHON
+        var getData = $.get('/topten1');
+        getData.done( function(response) {
+            $(document).ready(function () {
+            
+                var elms = [];
+                var src = response.topten1
+                src.forEach(function (item) {
+                    
+                    var elm = "<li>" + item.lbl + "</li>"
+                    elms.push(elm);
+                });
+                $('.selectpicker').html(elms);
             });
         });
     </script>
@@ -342,58 +365,11 @@
             })
         }
           
-        // function chart4() {
-        //     var ctx = document.getElementById('myChart4').getContext('2d');
-        //     ctx.clearRect(0, 0, 100000, 100000);
-        //     var getData = $.get('/difftasks');
-            
-        //     getData.done(function (response) {
-
-        //         var tasks = response.difftasks.map(r => "'" + r.lbl + "'")
-        //         var getData1 = $.get("/percent?tasks=" + tasks.join(','));
-
-        //         getData1.done(function (response1) {
-        //             var myChart = new Chart(ctx, {
-        //             type: 'horizontalBar',
-        //             title: 'Inginious',
-        //             data: {
-        //                 labels: response.difftasks.map(r => r.lbl),
-        //                 datasets: [{
-        //                     label: 'Number of students that tried the exercise',
-        //                     data: response.difftasks.map(r => r.val),
-        //                     backgroundColor: '#50b1e4',
-        //                     borderColor: '#50b1e4'
-        //                 },
-        //                 {
-        //                     label: 'Number of students that succeeded the exercise',
-        //                     data: response1.percent.map(x => x.val),
-        //                     backgroundColor: '#A7E6F1',
-        //                     borderColor: '#A7E6F1',
-        //                     // Changes this dataset to become a line
-        //                     type: 'horizontalBar'
-        //                 }]
-        //             },
-        //             options: {
-        //                 scales: {
-        //                     yAxes: [{
-        //                         display: true,
-        //                         ticks: {
-        //                             beginAtZero: true,
-        //                         }
-        //                     }]
-        //                 }
-        //             }
-        //         });
-        //         })
-        //     })
-
-        // }
-
         
         chart1();
         chart2();
         chart3();
-        //chart4();
+        
 
     </script>
 </body>
