@@ -122,6 +122,7 @@
                 <li style="float: right;"><a data-toggle="tab" href="#menu3">Graph 3</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu2">Graph 2</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu1">Graph 1</a></li>
+                <li style="float: right;"><a data-toggle="tab" href="#testing">testing</a></li>
                 
             </ul>
         </div>
@@ -171,9 +172,9 @@
                 <canvas id="myChart3"></canvas>
             </div>
         </div>
-        <div id="course1" class="tab-pane">
-            <div>
-                <canvas id="myChart4"></canvas>
+        <div id="testing" class="tab-pane fade">
+            <div class="chart-container">
+                <canvas id="updating_chart"></canvas>
             </div>
         </div>
         
@@ -192,7 +193,7 @@
                 var elms = [];
                 var src = response2.topten3
                 src.forEach(function(item){
-                    var elm = "<li>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.id+"' class='tasks'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker2').html(elms)
@@ -205,12 +206,13 @@
                 var elms = [];
                 var src = response1.topten2
                 src.forEach(function(item){
-                    var elm = "<li>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.id+"' class='tasks'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker1').html(elms)
             })
         });
+
         //LSINF1101-PYTHON
         var getData = $.get('/topten1');
         getData.done( function(response) {
@@ -220,15 +222,59 @@
                 var src = response.topten1
                 src.forEach(function (item) {
                     
-                    var elm = "<li>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
                     elms.push(elm);
+                    
                 });
                 $('.selectpicker').html(elms);
+
+                var myChart4 = null;
+                $('.tasks').on('click', function(e){
+                    console.log(e.target.id);
+
+                    var canvas = document.getElementById('updating_chart').getContext('2d');
+
+                    var getData1 = $.get('/time_late/' + e.target.id);
+                    getData1.done(function (avgtries){
+                        if (! myChart4) {
+                            myChart4 = new Chart(canvas, {
+                            type: 'radar',
+                            title: 'Inginious',
+                            data: {
+                                labels: avgtries.timel.map(r => r.lbl),
+                                datasets: [{
+                                    label: 'Average amount of tries - ' + e.target.id,
+                                    data: avgtries.timel.map(r => r.val),
+                                    borderColor: '#50b1e4'
+                                }]
+                            } 
+                            })
+                        } else {
+                            setTimeout(() => {
+                                myChart4.data.labels=avgtries.timel.map(r => r.lbl);
+                                myChart4.data.datasets.push({
+                                    label: 'Average amount of tries - ' + e.target.id,
+                                    data: avgtries.timel.map(r => r.val),
+                                    borderColor: '#50b1e4'
+                                })
+                                myChart4.update();
+                            }, 0)       
+                        }
+                    });
+                });
             });
         });
+        
+        function removeData(chart) {
+            chart.data.labels = [];
+            chart.data.datasets.data = [];
+            chart.update();
+        }
+    
     </script>
 
     <script>
+        
         
         function chart1() {
             var ctx = document.getElementById('myChart1').getContext('2d');
@@ -364,12 +410,29 @@
                 });
             })
         }
-          
+        
+        function chart4() {
+            var ctx4 = document.getElementById('myChart4').getContext('2d');
+
+            var getData3 = $.get('/time_late');
+            getData3.done(function(response5){
+                var myChart4 = new Chart(ctx4,{
+                    type: 'bar',
+                    data:{
+                        labels:response5.timel.map(r=> r.lbl),
+                        datasets:[{
+                            label: "hi",
+                            data: response5.timel.map(r=>r.val),
+                            borderColor: '#50b1e4'
+                        }]
+                    }
+                })
+            })
+        }
         
         chart1();
         chart2();
         chart3();
-        
 
     </script>
 </body>

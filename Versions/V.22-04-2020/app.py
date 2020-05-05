@@ -82,18 +82,25 @@ def top10_LSINF1101():
 @app.route('/topten2')
 def top10_LSINF1252():
     return jsonify({'topten2': query_db(
-        'SELECT task as lbl from user_tasks where course="LSINF1252" group by task order by count(*) desc limit 10'
+        'SELECT id,task as lbl from user_tasks where course="LSINF1252" group by task order by count(*) desc limit 10'
     )})
 
 #submenu LEPL1402
 @app.route('/topten3')
 def top10_LEPL1402():
     return jsonify({'topten3': query_db(
-        'SELECT task as lbl from user_tasks where course="LEPL1402" group by task order by count(*) desc limit 10'
+        'SELECT id,task as lbl from user_tasks where course="LEPL1402" group by task order by count(*) desc limit 10'
     )})
 
+#exercise_graph1
+@app.route('/time_late/<task>')
+def timel(task=None):
+
+    x = 'SELECT substr(submitted_on,12,2) as lbl,count(*) as val FROM submissions where task="'+task+'" group by lbl'
+    print(x)
+    return jsonify({'timel': query_db(x)})
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
     
