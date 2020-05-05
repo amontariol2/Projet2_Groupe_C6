@@ -100,6 +100,12 @@ def timel(task=None):
     print(x)
     return jsonify({'timel': query_db(x)})
 
+@app.route('/grades/<grade>')
+def grade(grade=None):
+    
+    return jsonify({'grades':query_db(
+        'SELECT grade as lbl, count(*) as val from user_tasks WHERE task="'+grade+'" GROUP by lbl'
+    )})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

@@ -98,13 +98,15 @@
 
 <body>
     <header>
+        <!-- Create navigation bar -->
         <div class="container">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Project 2</a></li>
+                <li class="active"><a data-toggle="tab" href="#home">DataCorner</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu4">How to use!</a></li>
                 <li style="float: right;" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu">Other graphs <b class="caret"></b></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu">Courses <b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <!-- Create dropdown menu in navigation bar -->
                         <li class="dropdown-submenu">
                             <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle" id="dropdown-hint">LSINF1252</a>
                             <ul class="dropdown-menu selectpicker1"></ul>
@@ -119,10 +121,10 @@
                         </li>
                     </ul>
                 </li>  
-                <li style="float: right;"><a data-toggle="tab" href="#menu3">Graph 3</a></li>
-                <li style="float: right;"><a data-toggle="tab" href="#menu2">Graph 2</a></li>
-                <li style="float: right;"><a data-toggle="tab" href="#menu1">Graph 1</a></li>
-                <li style="float: right;"><a data-toggle="tab" href="#testing">testing</a></li>
+                <li style="float: right;"><a data-toggle="tab" href="#menu3">Average number of tries</a></li>
+                <li style="float: right;"><a data-toggle="tab" href="#menu2">Course Related graph</a></li>
+                <li style="float: right;"><a data-toggle="tab" href="#menu1">Most tried exercises</a></li>
+                <li style="float: right;"><a data-toggle="tab" href="#testing">Task related graphs</a></li>
                 
             </ul>
         </div>
@@ -132,22 +134,34 @@
 
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-            <h3 style="text-align: center ;">Project 2</h3>
+            <h3 style="text-align: center ; padding-left: 40px;">DataCorner</h3>
             <p>
+                <!-- Explain what each graph shows -->
                 <ul style="list-style: none; text-align: center;">
-                    <li>Graph 1 shows the top ten tasks from varius courses that were tried by the most students and also how many of them succeeded.
+                    <li>Welcome to DataCorner a website created for the purpose of giving you valuable information about Inginious courses and tasks
                     </li>
-                    <li>Graph 2 shows the difference between the number of successfull tries and failed ones for each course.
+                    <li>By clicking on the Most tried exercises tab you will be presented with the top ten tasks from varius courses that were tried by the most students and also how many of them succeeded.
                     </li>
-                    <li>Graph 3 shows the tasks that have the most tries in average.
+                    <li>Course Related graph tab shows the difference between the number of successfull tries and failed ones for each course.
+                    </li>
+                    <li>Average number of tries shows the tasks that have the most tries per student before succeeding in average.
+                    </li>
+                    <li>Please do read the How to use tab in order to have the full experience of DataCorner
                     </li>
                 </ul>
             </p>
         </div>
         <div id="menu4" class="tab-pane fade">
-            <h3 style="text-align: center ;">How to use!</h3>
+            <h3 style="text-align: center ; padding-left: 40px ;">How to use!</h3>
             <p>
+                <!-- Add instructions on How to use page -->
                 <ul style="list-style: none; text-align: center;">
+                    <li>In order to use the Task related graphs tab you will need to choose it and the choose a task on the Courses dropdown menu
+                    </li>
+                    <li>By choosing more tasks you will be able to compare them
+                    </li>
+                    <li>And once done if you want to remove them you can simply click on their label above the graph
+                    </li>
                     <li>You can freely navigate through the diffrent graphs via the interaction tab
                     </li>
                     <li>Simply choose the graph you want and press the button.
@@ -157,24 +171,31 @@
                 </ul>
             </p>
         </div>
+        <!-- Create the space where the graphs will apear -->
         <div id="menu1" class="tab-pane fade">
             <div class="chart-container" >
                 <canvas id="myChart1"></canvas>
             </div>
         </div>
+        <!-- Create the space where the graphs will apear -->
         <div id="menu2" class="tab-pane fade">
             <div class="chart-container" >
                 <canvas id="myChart2"></canvas>
             </div>
         </div>
+        <!-- Create the space where the graphs will apear -->
         <div id="menu3" class="tab-pane fade">
             <div class="chart-container">
                 <canvas id="myChart3"></canvas>
             </div>
         </div>
+        <!-- Create the space where the graphs will apear --> 
         <div id="testing" class="tab-pane fade">
-            <div class="chart-container">
-                <canvas id="updating_chart"></canvas>
+            <div class="chart-container" style="float: left;">
+                <canvas id="updating_chart" width="700" height="650"></canvas>
+            </div>
+            <div class="chart-container" style="float: right;">
+                <canvas id="updating_chart2" width="700" height="650"></canvas>
             </div>
         </div>
         
@@ -186,96 +207,56 @@
     </div>
 
     <script>
-        //LEPL1402
-        var getData2 = $.get('/topten3');
-        getData2.done(function(response2){
-            $(document).ready(function(){
+        //Populate dropdown tables
+        function menu(){
+            //LEPL1402
+            var getData2 = $.get('/topten3');
+            getData2.done(function(response2){
                 var elms = [];
                 var src = response2.topten3
+                //Populate the dropdown menus for course LEPL1402
                 src.forEach(function(item){
-                    var elm = "<li id='"+item.id+"' class='tasks'>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker2').html(elms)
             })
-        })
-        //LSINF1252
-        var getData1 =$.get('/topten2');
-        getData1.done(function(response1){
-            $(document).ready(function (){
+            //LSINF1252
+            var getData1 =$.get('/topten2');
+            getData1.done(function(response1){
                 var elms = [];
                 var src = response1.topten2
+                //Populate the dropdown menus for course LSINF1252
                 src.forEach(function(item){
-                    var elm = "<li id='"+item.id+"' class='tasks'>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker1').html(elms)
-            })
-        });
+            });
 
-        //LSINF1101-PYTHON
-        var getData = $.get('/topten1');
-        getData.done( function(response) {
-            $(document).ready(function () {
-            
+            //LSINF1101-PYTHON
+            var getData = $.get('/topten1');
+            getData.done( function(response) {            
                 var elms = [];
                 var src = response.topten1
+                //Populate the dropdown menus for course LSINF1101-PYTHON
                 src.forEach(function (item) {
-                    
                     var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
-                    elms.push(elm);
-                    
+                    elms.push(elm);   
                 });
                 $('.selectpicker').html(elms);
-
-                var myChart4 = null;
-                $('.tasks').on('click', function(e){
-                    console.log(e.target.id);
-
-                    var canvas = document.getElementById('updating_chart').getContext('2d');
-
-                    var getData1 = $.get('/time_late/' + e.target.id);
-                    getData1.done(function (avgtries){
-                        if (! myChart4) {
-                            myChart4 = new Chart(canvas, {
-                            type: 'radar',
-                            title: 'Inginious',
-                            data: {
-                                labels: avgtries.timel.map(r => r.lbl),
-                                datasets: [{
-                                    label: 'Average amount of tries - ' + e.target.id,
-                                    data: avgtries.timel.map(r => r.val),
-                                    borderColor: '#50b1e4'
-                                }]
-                            } 
-                            })
-                        } else {
-                            setTimeout(() => {
-                                myChart4.data.labels=avgtries.timel.map(r => r.lbl);
-                                myChart4.data.datasets.push({
-                                    label: 'Average amount of tries - ' + e.target.id,
-                                    data: avgtries.timel.map(r => r.val),
-                                    borderColor: '#50b1e4'
-                                })
-                                myChart4.update();
-                            }, 0)       
-                        }
-                    });
-                });
             });
-        });
-        
-        function removeData(chart) {
-            chart.data.labels = [];
-            chart.data.datasets.data = [];
-            chart.update();
-        }
-    
+            
+          
+            setTimeout(()=>{
+                menu_onclick()
+            },1000)
+        }; 
     </script>
 
     <script>
-        
-        
+
+        //Create first graph (horizontal bars)
         function chart1() {
             var ctx = document.getElementById('myChart1').getContext('2d');
             ctx.clearRect(0, 0, 100000, 100000);
@@ -303,7 +284,6 @@
                             data: response1.percent.map(x => x.val),
                             backgroundColor: '#A7E6F1',
                             borderColor: '#A7E6F1',
-                            // Changes this dataset to become a line
                             type: 'horizontalBar'
                         }]
                     },
@@ -323,6 +303,7 @@
 
         }
         
+        //Create second graph (pyramid)
         function chart2() {
             var ctx2 = document.getElementById('myChart2').getContext('2d');
             ctx2.clearRect(0, 0, 100000, 100000);
@@ -387,6 +368,7 @@
 
         }
         
+        //Create third graph (horizontal bars)
         function chart3() {
             var ctx3 = document.getElementById('myChart3').getContext('2d');
             
@@ -398,7 +380,7 @@
                     data: {
                         labels: avgtries.avgtries.map(r => r.lbl),
                         datasets: [{
-                            label: 'Average amount of tries',
+                            label: 'Average number of tries',
                             data: avgtries.avgtries.map(r => r.val),
                             backgroundColor: '#50b1e4',
                             borderColor: '#50b1e4'
@@ -411,28 +393,100 @@
             })
         }
         
-        function chart4() {
-            var ctx4 = document.getElementById('myChart4').getContext('2d');
+        //This function removes data from previous charts
+        function removeData(chart) {
+            chart.data.labels = [];
+            chart.data.datasets.data = [];
+            chart.update();
+        }
 
-            var getData3 = $.get('/time_late');
-            getData3.done(function(response5){
-                var myChart4 = new Chart(ctx4,{
-                    type: 'bar',
-                    data:{
-                        labels:response5.timel.map(r=> r.lbl),
-                        datasets:[{
-                            label: "hi",
-                            data: response5.timel.map(r=>r.val),
-                            borderColor: '#50b1e4'
-                        }]
-                    }
+        //Onclick event handler for tasks
+        function menu_onclick(){
+            var myChart5=null
+            var myChart4=null
+            $('.tasks').on('click',function(e){
+                    var canvas = document.getElementById('updating_chart').getContext('2d');
+                    var canvas2 = document.getElementById('updating_chart2').getContext('2d');
+                    //add the name of the task in the url so that flask can use it in the query
+                    var getData1 = $.get('/time_late/'+e.target.id)
+                    var getData2 = $.get('/grades/'+e.target.id)
+                    getData1.done(function(timetable){
+                        if (!myChart4){
+                            myChart4 = new Chart(canvas, {
+                            type: 'radar',
+                            data: {
+                                labels: timetable.timel.map(r => r.lbl),
+                                datasets: [{
+                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    data: timetable.timel.map(r => r.val),
+                                    borderColor: '#50b1e400',
+                                    backgroundColor: 'rgba(0, 0, 255, 0.3)'
+                                    }]
+                                } 
+                            })
+                        }
+                        else{
+                            //else if it's not clear the graph value and make a new one
+                            setTimeout(() => {
+                                removeData(myChart4)
+                                myChart4.data.labels=timetable.timel.map(r => r.lbl);
+                                myChart4.data.datasets.push({
+                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    data: timetable.timel.map(r => r.val),
+                                    borderColor: '#50b1e400',
+                                    backgroundColor: 'rgba(0, 0, 255, 0.3)'
+                                })
+                                myChart4.update();
+                            }, 0)     
+                        }
+                    getData2.done(function(timetable){ 
+                        if(!myChart5){
+                            myChart5 = new Chart(canvas2, {
+                            type: 'bar',
+                            data: {
+                                labels: timetable.grades.map(r => r.lbl),
+                                datasets: [{
+                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    data: timetable.grades.map(r => r.val),
+                                    borderColor: '#50b1e400',
+                                    backgroundColor: 'rgba(0, 0, 255, 0.3)'
+                                    }]
+                                } 
+                            })
+                        }
+                        else{
+                            //else if it's not clear the graph value and make a new one
+                            setTimeout(() => {
+                                removeData(myChart5)
+                                myChart5.data.labels=timetable.grades.map(r => r.lbl);
+                                myChart5.data.datasets.push({
+                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    data: timetable.grades.map(r => r.val),
+                                    borderColor: '#50b1e400',
+                                    backgroundColor: 'rgba(0, 0, 255, 0.3)'
+                                })
+                                myChart5.update();
+                            }, 0)     
+                        }
+                    })
                 })
             })
         }
         
-        chart1();
-        chart2();
-        chart3();
+        //Onclick event handler for courses
+        function course_onclick(){
+            $('#dropdown-hint').on('click',function(e){
+                var getData1 = $.get('/topten1/'+e.target.id)
+            })
+        }
+        
+        //Calling functions
+        $(document).ready(function (){
+            menu();
+            chart1();
+            chart2();
+            chart3();
+        })
 
     </script>
 </body>
