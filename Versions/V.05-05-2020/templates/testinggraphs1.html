@@ -446,7 +446,7 @@
                             data: {
                                 labels: timetable.grades.map(r => r.lbl),
                                 datasets: [{
-                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    label: 'Grades - ' + e.target.id,
                                     data: timetable.grades.map(r => r.val),
                                     borderColor: '#50b1e400',
                                     backgroundColor: 'rgba(0, 0, 255, 0.3)'
@@ -460,7 +460,7 @@
                                 removeData(myChart5)
                                 myChart5.data.labels=timetable.grades.map(r => r.lbl);
                                 myChart5.data.datasets.push({
-                                    label: 'Number of tries per hour - ' + e.target.id,
+                                    label: 'Grades - ' + e.target.id,
                                     data: timetable.grades.map(r => r.val),
                                     borderColor: '#50b1e400',
                                     backgroundColor: 'rgba(0, 0, 255, 0.3)'
