@@ -16,19 +16,20 @@
         body {
             background: #FFFFFF;
             font-family: 'Work Sans', sans-serif;
-            overflow: hidden;
             margin: 2rem;
         }
 
         #footer {
-            position: absolute;
-            bottom: 0;
             width: calc(100% - 4rem);
             height: 2.5rem; 
             color : #50b1e4;
             margin: 5px;
             border-top: 1px solid silver;
             padding: 5px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            text-align: center;
         }
 
         .tab-pane {
@@ -92,6 +93,14 @@
         #dropdown-hint + ul{
             padding-left: 15px;
         }
+        #menu1, #menu2, #menu3, #testing{
+            padding-bottom:3%;
+        }
+        #clearbtn{
+            position: fixed;
+            right: 2%;
+            bottom: 5%;
+        }
         
     </style>
 </head>
@@ -104,7 +113,7 @@
                 <li class="active"><a data-toggle="tab" href="#home">DataCorner</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu4">How to use!</a></li>
                 <li style="float: right;" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu">Courses <b class="caret"></b></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu" >Courses <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <!-- Create dropdown menu in navigation bar -->
                         <li class="dropdown-submenu">
@@ -197,10 +206,11 @@
             <div class="chart-container" style="float: right;">
                 <canvas id="updating_chart2" width="700" height="650"></canvas>
             </div>
+            <p id="demo"></p>
+            <button type="button" class="btn btn-primary btn-lg" id="clearbtn" onclick="removeData()">Clear Graphs</button>
         </div>
         
         </div>
-   
     <div id="footer">
         <span>Adrien Montariol - Arthur Wery - Giannis Matrozos</span>
         <span style="float: right;">Travail réalisé dans le cadre du projet 2</span>
@@ -220,7 +230,7 @@
                     elms.push(elm);
                 });
                 $('.selectpicker2').html(elms)
-            })
+            }) 
             //LSINF1252
             var getData1 =$.get('/topten2');
             getData1.done(function(response1){
@@ -252,9 +262,6 @@
                 menu_onclick()
             },1000)
         }; 
-    </script>
-
-    <script>
 
         //Create first graph (horizontal bars)
         function chart1() {
@@ -394,10 +401,14 @@
         }
         
         //This function removes data from previous charts
-        function removeData(chart) {
-            chart.data.labels = [];
-            chart.data.datasets.data = [];
-            chart.update();
+        function removeData() {
+            myChart4.data.labels = [];
+            myChart4.data.datasets.data = [];
+            myChart4.update();
+            myChart5.data.labels = [];
+            myChart5data.datasets.data = [];
+            myChart5.update();
+            document.getElementById("demo").innerHTML = "Hello World";
         }
 
         //Onclick event handler for tasks
