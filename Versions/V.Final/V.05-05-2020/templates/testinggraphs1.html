@@ -101,6 +101,21 @@
             right: 2%;
             bottom: 5%;
         }
+        #buttons {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+            border-radius: 50px;
+            font: 24px "Margarine", sans-serif;
+            outline: none;
+            cursor: pointer;
+            position: fixed;
+            transition: 0.2s ease-in-out;
+            letter-spacing: 2px;
+            right: 92.5%;
+            bottom: 85%;
+            
+        }
         
     </style>
 </head>
@@ -112,24 +127,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">DataCorner</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu4">How to use!</a></li>
-                <li style="float: right;" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu" >Courses <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <!-- Create dropdown menu in navigation bar -->
-                        <li class="dropdown-submenu">
-                            <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle" id="dropdown-hint">LSINF1252</a>
-                            <ul class="dropdown-menu selectpicker1"></ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LEPL1402</a>
-                            <ul class="dropdown-menu selectpicker2"></ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LSINF1101-PYTHON</a>
-                            <ul class="dropdown-menu selectpicker" ></ul>
-                        </li>
-                    </ul>
-                </li>  
                 <li style="float: right;"><a data-toggle="tab" href="#menu3">Average number of tries</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu2">Course Related graph</a></li>
                 <li style="float: right;"><a data-toggle="tab" href="#menu1">Most tried exercises</a></li>
@@ -207,7 +204,25 @@
                 <canvas id="updating_chart2" width="700" height="650"></canvas>
             </div>
             <p id="demo"></p>
-            <button type="button" class="btn btn-primary btn-lg" id="clearbtn" onclick="removeData()">Clear Graphs</button>
+            <button type="button" class="btn btn-primary btn-lg" id="clearbtn" title="Note: This will reload the webpage" onclick="deletestuff()">Clear Graphs</button>
+            <Button type="button" id="buttons" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#dropmenu" >Courses <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <!-- Create dropdown menu in navigation bar -->
+                    <li class="dropdown-submenu">
+                        <a href="#dropmenu" data-toggle="dropdown" class="dropdown-toggle" id="dropdown-hint">LSINF1252</a>
+                        <ul class="dropdown-menu selectpicker1"></ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LEPL1402</a>
+                        <ul class="dropdown-menu selectpicker2"></ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a href="#dropmenu" class="dropdown-toggle" data-toggle="dropdown" id="dropdown-hint">LSINF1101-PYTHON</a>
+                        <ul class="dropdown-menu selectpicker" ></ul>
+                    </li>
+                </ul>
+            </Button>  
         </div>
         
         </div>
@@ -226,11 +241,11 @@
                 var src = response2.topten3
                 //Populate the dropdown menus for course LEPL1402
                 src.forEach(function(item){
-                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks' style='color:black;'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker2').html(elms)
-            }) 
+            })
             //LSINF1252
             var getData1 =$.get('/topten2');
             getData1.done(function(response1){
@@ -238,7 +253,7 @@
                 var src = response1.topten2
                 //Populate the dropdown menus for course LSINF1252
                 src.forEach(function(item){
-                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks' style='color:black;'>" + item.lbl + "</li>"
                     elms.push(elm);
                 });
                 $('.selectpicker1').html(elms)
@@ -251,7 +266,7 @@
                 var src = response.topten1
                 //Populate the dropdown menus for course LSINF1101-PYTHON
                 src.forEach(function (item) {
-                    var elm = "<li id='"+item.lbl+"' class='tasks'>" + item.lbl + "</li>"
+                    var elm = "<li id='"+item.lbl+"' class='tasks' style='color:black;'>" + item.lbl + "</li>"
                     elms.push(elm);   
                 });
                 $('.selectpicker').html(elms);
@@ -262,6 +277,13 @@
                 menu_onclick()
             },1000)
         }; 
+    </script>
+
+    <script>
+        function deletestuff() {
+            window.location.reload(false);    
+            window.location.href = "#testing";     
+        }
 
         //Create first graph (horizontal bars)
         function chart1() {
@@ -401,15 +423,12 @@
         }
         
         //This function removes data from previous charts
-        function removeData() {
-            myChart4.data.labels = [];
-            myChart4.data.datasets.data = [];
-            myChart4.update();
-            myChart5.data.labels = [];
-            myChart5data.datasets.data = [];
-            myChart5.update();
-            document.getElementById("demo").innerHTML = "Hello World";
+        function removeData(chart) {
+            chart.data.labels = [];
+            chart.data.datasets.data = [];
+            chart.update();
         }
+        
 
         //Onclick event handler for tasks
         function menu_onclick(){
