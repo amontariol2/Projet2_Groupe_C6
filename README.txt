@@ -1,4 +1,4 @@
-In order to use you will need: 1. Python 2.7.17 installed on your machine 
+In order to use you will need: 1. Python 2.7.17 or higher installed on your machine 
 			       2. Flask 1.1.2 installed on your machine
 			       3. Go in versions and use V.05-05-2020
 
