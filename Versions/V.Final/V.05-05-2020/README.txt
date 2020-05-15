@@ -1,16 +1,7 @@
-Afin de vérifier que mon programme fonctionne correctement j’ai pris comme exemple les 4 qui sont donnés dans l’énoncé  
+In order to use you will need: 1. Python 2.7.17 installed on your machine 
+			       2. Flask 1.1.2 installed on your machine
+			       3. Go in versions and use V.05-05-2020
 
-((x**3) +(y**2) =(z**9)) ==> 1 seule solution x=7, y=13, z=2 
- 
+				    !!!!IMPORTANT!!!!
 
-((x**7) +(y**3) =(z**2)) ==> 3 solutions (x=1, y=2, z=3), (x=2, y=17, z=71), (x=3, y=9, z=54) 
- 
-
-((x**5) +(y**4) =(z**2)) ==> 2 solutions (x=3, y=3, z=18), (x=3, y=11, z=122) 
- 
-
-((x**3) +(y**2) =(z**7)) ==> 1 seule solution x=4, y=8, z=2 
-
- 
-
-Je n’ai pas eu des difficultés pour cette exercice  
+BEFORE USING PLEASE READ THE 'HOW TO USE' TAB ON THE WEBSITE IN ORDER TO AVOID ANY CONFUSION  
